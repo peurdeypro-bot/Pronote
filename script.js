@@ -1,4 +1,5 @@
 import { scoreOnTwenty } from './grade-statistics.js';
+import './widget-resize.js';
 
 (() => {
   const $ = (id) => document.getElementById(id);
@@ -61,8 +62,6 @@ import { scoreOnTwenty } from './grade-statistics.js';
       const homework = Array.isArray(data.homework) ? data.homework : [];
       if ($('homework-meta')) $('homework-meta').textContent = `${homework.length} devoir${homework.length === 1 ? '' : 's'} à venir`;
       if ($('homework-list')) $('homework-list').replaceChildren(...homework.map((item) => {
-        // Keep the checkbox, description and due date in their own grid columns;
-        // putting the whole text in one node makes it wrap into the checkbox column.
         const row = document.createElement('div'); row.className = 'task';
         const statusBox = document.createElement('input');
         statusBox.className = 'task-check'; statusBox.type = 'checkbox';
@@ -160,7 +159,7 @@ import { scoreOnTwenty } from './grade-statistics.js';
   $('edit-layout')?.addEventListener('click', (event) => {
     const button = event.currentTarget; const active = button.getAttribute('aria-pressed') !== 'true';
     button.setAttribute('aria-pressed', String(active)); $('widgets')?.classList.toggle('is-editing', active);
-    announce(active ? 'Mode personnalisation activé.' : 'Personnalisation terminée.');
+    announce(active ? 'Mode personnalisation activé. Utilise la poignée ↘ en bas à droite pour agrandir les widgets.' : 'Personnalisation terminée.');
   });
   $('global-background-button')?.addEventListener('click', () => {
     const panel = $('global-background-settings'); panel.hidden = !panel.hidden;

@@ -1,9 +1,10 @@
-const CACHE_NAME = 'mon-espace-v12';
+const CACHE_NAME = 'mon-espace-v13';
 const APP_SHELL = [
   './',
   './index.html',
   './style.css?v=15',
-  './script.js?v=19',
+  './script.js?v=20',
+  './widget-resize.js',
   './grade-statistics.js',
   './manifest.webmanifest',
   './icon.svg'
@@ -48,7 +49,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (requestUrl.pathname.includes('.css') || requestUrl.pathname.includes('.js')
+  if (requestUrl.pathname.endsWith('.css') || requestUrl.pathname.endsWith('.js')
     || requestUrl.pathname.endsWith('.svg') || requestUrl.pathname.endsWith('.webmanifest')) {
     event.respondWith(
       caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
