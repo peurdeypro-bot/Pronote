@@ -58,8 +58,26 @@ import { scoreOnTwenty } from './grade-statistics.js';
           return row;
         }));
       }
-      if ($('homework-list')) $('homework-list').replaceChildren(...(data.homework || []).map((item) => {
-        const row = document.createElement('div'); row.className = 'task'; row.textContent = `${item.subject || 'Matière'} · ${item.description || 'Devoir'} · ${item.date || ''}`; return row;
+      const homework = Array.isArray(data.homework) ? data.homework : [];
+      if ($('homework-meta')) $('homework-meta').textContent = `${homework.length} devoir${homework.length === 1 ? '' : 's'} à venir`;
+      if ($('homework-list')) $('homework-list').replaceChildren(...homework.map((item) => {
+        // Keep the checkbox, description and due date in their own grid columns;
+        // putting the whole text in one node makes it wrap into the checkbox column.
+        const row = document.createElement('div'); row.className = 'task';
+        const statusBox = document.createElement('input');
+        statusBox.className = 'task-check'; statusBox.type = 'checkbox';
+        statusBox.checked = Boolean(item.done); statusBox.disabled = true;
+        statusBox.setAttribute('aria-label', item.done ? 'Devoir terminé' : 'Devoir à faire');
+        const copy = document.createElement('span'); copy.className = 'task-copy';
+        const name = document.createElement('span'); name.className = 'task-name';
+        name.textContent = item.description || 'Devoir sans description';
+        const subject = document.createElement('span'); subject.className = 'task-subject';
+        subject.textContent = item.subject || 'Matière';
+        copy.append(name, subject);
+        const due = document.createElement('span'); due.className = item.done ? 'due soon' : 'due';
+        due.textContent = item.date || 'À venir';
+        row.append(statusBox, copy, due);
+        return row;
       }));
       $('open-login').hidden = true;
       if ($('disconnect')) $('disconnect').hidden = false;
@@ -173,6 +191,5 @@ import { scoreOnTwenty } from './grade-statistics.js';
     panel.hidden = !panel.hidden; button.setAttribute('aria-expanded', String(!panel.hidden));
   }));
 
-  // Use normalized grades helper when dashboard statistics are added to the page.
   void scoreOnTwenty;
 })();
