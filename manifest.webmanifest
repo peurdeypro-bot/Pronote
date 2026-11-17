@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Mon espace scolaire",
+  "short_name": "Mon espace",
+  "description": "Ton tableau de bord scolaire Pronote.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f5f2",
+  "theme_color": "#f4f5f2",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
